@@ -3,7 +3,9 @@ require 'ostruct'
 module SamlIdp
   class Configurator
     attr_accessor :x509_certificate
+    attr_accessor :new_x509_certificate
     attr_accessor :secret_key
+    attr_accessor :new_secret_key
     attr_accessor :password
     attr_accessor :algorithm
     attr_accessor :organization_name

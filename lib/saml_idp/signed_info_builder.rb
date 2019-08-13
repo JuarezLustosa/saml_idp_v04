@@ -65,7 +65,7 @@ module SamlIdp
     private :clean_algorithm_name
 
     def secret_key
-      SamlIdp.config.secret_key
+      SamlIdp.config.new_secret_key || SamlIdp.config.secret_key
     end
     private :secret_key
 

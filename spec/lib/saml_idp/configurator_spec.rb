@@ -19,8 +19,16 @@ module SamlIdp
       subject.x509_certificate.should == Default::X509_CERTIFICATE
     end
 
+    it "new_x509_certificate should be nil" do
+      expect(subject.new_x509_certificate).to be_nil
+    end
+
     it "has a valid secret_key" do
       subject.secret_key.should == Default::SECRET_KEY
+    end
+
+    it "has a valid new_secret_key" do
+      expect(subject.new_secret_key).to be_nil
     end
 
     it "has a valid algorithm" do
@@ -30,7 +38,6 @@ module SamlIdp
     it "has a valid reference_id_generator" do
       subject.reference_id_generator.should respond_to :call
     end
-
 
     it "can call service provider finder" do
       subject.service_provider.finder.should respond_to :call

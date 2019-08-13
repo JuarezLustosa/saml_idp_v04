@@ -135,7 +135,14 @@ module SamlIdp
     private :raw_algorithm
 
     def x509_certificate
-      SamlIdp.config.x509_certificate
+      extract_x509_certificate(configurator.new_x509_certificate) ||
+      extract_x509_certificate(configurator.x509_certificate)
+    end
+
+    private def extract_x509_certificate(cert)
+      return if cert.blank?
+
+      cert
       .to_s
       .gsub(/-----BEGIN CERTIFICATE-----/,"")
       .gsub(/-----END CERTIFICATE-----/,"")
