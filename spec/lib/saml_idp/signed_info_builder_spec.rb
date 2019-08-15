@@ -25,11 +25,11 @@ module SamlIdp
         before { allow_any_instance_of(ServiceProvider).to receive(:new_cert?).and_return true }
 
         it 'return a different signed encoded' do
-          subject.signed.should == "sjkwhREoe/2b+WmWeh8z0jCS0Yob+cR5oicDsmsVSUXzsHhfmax0PAvUTxrR51Nb6JDMrNFkJqb2k+qTB3RR/Bs3uRnbIaDaBYFBT90/+dXK1k3/3dibWQcae/dqSGg/EPFGvb2ynVgWNUdPJb09KhVMNN9DdMPYFZx33WgSW74="
+          subject.signed.should == "No41nwOoVEXgKz2iKUZuR0g5hnTArkMSN40Qk98XzbLUObgTg68k3cAU8KMyr5cfMC7rMQdtbDTgYn6vKCHI2Yf8k/cmRD9f+YHixnosepUMlQeBkeN/QL4f44vtaeKDUA4j0C0B2vhZZT4FHGi88z2PooTzQAfdhh2j/Wuutaw="
         end
       end
 
-      context 'when provicer do not have a new certificates' do
+      context 'when provider do not have a new certificates' do
         it 'return signed encoded' do
           subject.signed.should == "hKLeWLRgatHcV6N5Fc8aKveqNp6Y/J4m2WSYp0awGFtsCTa/2nab32wI3du+3kuuIy59EDKeUhHVxEfyhoHUo6xTZuO2N7XcTpSonuZ/CB3WjozC2Q/9elss3z1rOC3154v5pW4puirLPRoG+Pwi8SmptxNRHczr6NvmfYmmGfo="
         end
