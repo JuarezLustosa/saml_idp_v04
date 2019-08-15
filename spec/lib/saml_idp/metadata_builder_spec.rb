@@ -17,18 +17,20 @@ module SamlIdp
     end
 
     context '#x509_certificate' do
-      context 'when a new certificate is setup' do
-        it 'return the new certificate' do
-          subject.configurator.new_x509_certificate = new_signature
+      context 'when the service provider has new certificate' do
+        it 'extract new certificate' do
+          allow_any_instance_of(ServiceProvider).to(
+            receive(:new_cert?).and_return true
+          )
           expect(subject.x509_certificate.length < 15).to(
-            eq(new_signature.length < 15)
+            eq(Default::NEW_X509_CERTIFICATE.length < 15)
           )
         end
       end
 
-      context 'when the new certificate turn on old certificate' do
-        it 'return certificate' do
-          subject.configurator.new_x509_certificate = nil
+      context 'when the service provider does not have a new certificate' do
+        it 'extract default certificate' do
+          subject.configurator.single_service_post_location = nil
           expect(subject.x509_certificate.length < 15).to(
             eq(Default::X509_CERTIFICATE.length < 15)
           )

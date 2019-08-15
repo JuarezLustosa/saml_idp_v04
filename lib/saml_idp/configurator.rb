@@ -22,6 +22,8 @@ module SamlIdp
     def initialize
       self.x509_certificate = Default::X509_CERTIFICATE
       self.secret_key = Default::SECRET_KEY
+      self.new_x509_certificate = Default::NEW_X509_CERTIFICATE
+      self.new_secret_key = Default::NEW_SECRET_KEY
       self.algorithm = :sha1
       self.reference_id_generator = ->() { UUID.generate }
       self.service_provider = OpenStruct.new

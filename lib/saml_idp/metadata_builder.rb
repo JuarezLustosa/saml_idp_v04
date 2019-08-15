@@ -20,7 +20,7 @@ module SamlIdp
           "xmlns:saml" => Saml::XML::Namespaces::ASSERTION,
           "xmlns:ds" => Saml::XML::Namespaces::SIGNATURE,
           entityID: entity_id do |entity|
-            sign entity
+            sign entity, single_service_post_location
 
             entity.IDPSSODescriptor protocolSupportEnumeration: protocol_enumeration do |descriptor|
               build_key_descriptor descriptor
@@ -134,12 +134,24 @@ module SamlIdp
     end
     private :raw_algorithm
 
-    def x509_certificate
-      extract_x509_certificate(configurator.new_x509_certificate) ||
-      extract_x509_certificate(configurator.x509_certificate)
+    def service_provider
+      @_service_provider ||=
+        ServiceProvider.new((service_provider_finder[single_service_post_location] || {}))
     end
 
-    private def extract_x509_certificate(cert)
+    def x509_certificate
+      extract_x509_certificate(certificate_by_provider)
+    end
+
+    def certificate_by_provider
+      if service_provider.new_cert?
+        SamlIdp.config.new_x509_certificate
+      else
+        SamlIdp.config.x509_certificate
+      end
+    end
+
+    def extract_x509_certificate(cert)
       return if cert.blank?
 
       cert
@@ -148,6 +160,12 @@ module SamlIdp
       .gsub(/-----END CERTIFICATE-----/,"")
       .gsub(/\n/, "")
     end
+    private
+
+    def service_provider_finder
+      SamlIdp.config.service_provider.finder
+    end
+    private :service_provider_finder
 
     %w[
       support_email
