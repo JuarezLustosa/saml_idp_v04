@@ -12,6 +12,7 @@ module SamlIdp
     attribute :validate_signature
     attribute :acs_url
     attribute :assertion_consumer_logout_service_url
+    attribute :new_cert?
 
     delegate :config, to: :SamlIdp
 
